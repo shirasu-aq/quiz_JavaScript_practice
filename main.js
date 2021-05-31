@@ -130,7 +130,7 @@
     return array;
   };
 
-  // 10問のクイズが終わった後の画面（正答数表示画面)
+  // 10問全てのクイズ解答が終わった後の画面（正答数表示画面)
   const finishQuiz = (quizInstance) => {
     titleElement.textContent = `あなたの正答数は${quizInstance.getCorrectAnswersNum()}です`;
     genreElement.textContent = "";

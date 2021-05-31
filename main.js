@@ -1,6 +1,25 @@
 {
-  const API_URL = "https://opentdb.com/api.php?amount=10&type=multiple";
+  // スタートボタンを押してデータ取得
+  const startButton = document.getElementById("start-button");
+  startButton.addEventListener("click", () => {
+    startButton.hidden = true;
+    fetchQuizData(1);
+  });
 
+  // fetchAPIを用いてデータを取り出す
+  const API_URL = "https://opentdb.com/api.php?amount=10&type=multiple";
+  const fetchQuizData = async (index) => {
+    titleElement.textContent = "取得中";
+    questionElement.textContent = "少々お待ち下さい";
+
+    const response = await fetch(API_URL);
+    const quizData = await response.json();
+    const quizInstance = new Quiz(quizData);
+
+    setNextQuiz(quizInstance, index);
+  };
+
+    // quizDataを取り出す
   class Quiz {
     constructor(quizData) {
       this._quizzes = quizData.results;
@@ -43,29 +62,8 @@
     }
   }
 
-  const titleElement = document.getElementById("title");
-  const questionElement = document.getElementById("question");
+  // クイズの問題数によって処理を切り分けていく
   const answersContainer = document.getElementById("answers");
-  const startButton = document.getElementById("start-button");
-  const genreElement = document.getElementById("genre");
-  const difficultyElement = document.getElementById("difficulty");
-
-  startButton.addEventListener("click", () => {
-    startButton.hidden = true;
-    fetchQuizData(1);
-  });
-
-  const fetchQuizData = async (index) => {
-    titleElement.textContent = "取得中";
-    questionElement.textContent = "少々お待ち下さい";
-
-    const response = await fetch(API_URL);
-    const quizData = await response.json();
-    const quizInstance = new Quiz(quizData);
-
-    setNextQuiz(quizInstance, index);
-  };
-
   const setNextQuiz = (quizInstance, index) => {
     while (answersContainer.firstChild) {
       answersContainer.removeChild(answersContainer.firstChild);
@@ -77,6 +75,12 @@
       finishQuiz(quizInstance);
     }
   };
+
+  // 次の問題
+  const titleElement = document.getElementById("title");
+  const genreElement = document.getElementById("genre");
+  const difficultyElement = document.getElementById("difficulty");
+  const questionElement = document.getElementById("question");
 
   const makeQuiz = (quizInstance, index) => {
     titleElement.innerHTML = `問題 ${index}`;
@@ -108,20 +112,7 @@
     });
   };
 
-  const finishQuiz = (quizInstance) => {
-    titleElement.textContent = `あなたの正答数は${quizInstance.getCorrectAnswersNum()}です`;
-    genreElement.textContent = "";
-    difficultyElement.textContent = "";
-    questionElement.textContent = "再チャレンジしたい場合は下をクリック";
-
-    const restartButton = document.createElement("button");
-    restartButton.textContent = "ホームに戻る";
-    answersContainer.appendChild(restartButton);
-    restartButton.addEventListener("click", () => {
-      location.reload();
-    });
-  };
-
+  解答選択肢（ボタン）を表示
   const buildAnswers = (quizInstance, index) => {
     const answers = [
       quizInstance.getCorrectAnswer(index),
@@ -138,4 +129,21 @@
     }
     return array;
   };
+
+  // 10問のクイズが終わった後の画面（正答数表示画面)
+  const finishQuiz = (quizInstance) => {
+    titleElement.textContent = `あなたの正答数は${quizInstance.getCorrectAnswersNum()}です`;
+    genreElement.textContent = "";
+    difficultyElement.textContent = "";
+    questionElement.textContent = "再チャレンジしたい場合は下をクリック";
+
+    const restartButton = document.createElement("button");
+    restartButton.textContent = "ホームに戻る";
+    answersContainer.appendChild(restartButton);
+    restartButton.addEventListener("click", () => {
+      location.reload();
+    });
+  };
+
+
 }

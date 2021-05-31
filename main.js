@@ -92,11 +92,8 @@ const makeQuiz = (quizInstance, index) => {
 　difficultyElement.innerHTML = `【難易度】 ${quizInstance.getQuizDifficulty(index)}`;
 　questionElement.innerHTML = `【クイズ】${quizInstance.getQuizQuestion(index)})`;
 
-const answers = [
-  quizInstance.getcorrectAnswer(index),
-  // ...を入れて回答ごとにボタンを生成する
-  ...quizInstance.getIncorrectAnswers(index)
-];
+// buildQuiz関数をmakeQuiz関数の中で呼び出す
+const answers = buildAnswers(quizInstance, index);
 
   answers.forEach((answer) => {
     const answerElement = document.createElement('li');
@@ -114,6 +111,8 @@ const answers = [
 　});
 };
 
+
+
 // シャッフルするコード
 const shuffleArray = ([...array]) => {
   for (let i = array.length - 1; i >= 0; i--) {
@@ -123,9 +122,27 @@ const shuffleArray = ([...array]) => {
   return array;
 };
 
+// 答えをシャッフルする関数
+const buildAnswers = (quizInstance, index) => {
+  const answers = [
+    quizInstance.getcorrectAnswer(index),
+    // ...を入れて回答ごとにボタンを生成する
+    ...quizInstance.getIncorrectAnswers(index)
+  ];
+  return shuffleArray(answers);
+}
+
 const finishQuiz = (quizInstance) => {
   titleElement.textContent = `あなたの正答数は${quizInstance.getcorrectAnswersNum()}です`
   genreElement.textContent = '';
   difficultyElement.textContent = '';
   questionElement.textContent = '再チャレンジしたい場合は下をクリック';
-}
+
+  // リスタートボタン実装
+const restartButton = document.createElement('button');
+restartButton.textContent = 'ホームに戻る';
+answersContainer.appendChild(restartButton);
+restartButton.addEventListener('click', () => {
+  location.reload();
+});
+};

@@ -42,8 +42,8 @@ class Quiz {
   }
 
   // カウントした正答数を取得
-  getcorrectAnswerNum() {
-    return this._correctAnswerNum++;
+  getcorrectAnswersNum() {
+    return this._correctAnswersNum++;
   }
 };
 

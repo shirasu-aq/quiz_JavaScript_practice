@@ -18,9 +18,9 @@ class Quiz {
       return this._quizees[index - 1].question;
     }
 
-  }
+}
 
-  const fetchQuizData = async (index) => {
+const fetchQuizData = async (index) => {
     titleElement.textContent = '取得中';
     questionElement.textContent = '少々お待ちください';
 
@@ -30,9 +30,9 @@ class Quiz {
     const quizInstance = new Quiz(quizData);
 
     setNextQuiz(quizInstance, index);
-  };
+};
 
 
 
 
-}
+// }

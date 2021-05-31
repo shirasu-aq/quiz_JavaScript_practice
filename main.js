@@ -128,4 +128,12 @@ const finishQuiz = (quizInstance) => {
   genreElement.textContent = '';
   difficultyElement.textContent = '';
   questionElement.textContent = '再チャレンジしたい場合は下をクリック';
-}
+
+    // リスタートボタン実装
+    const restartButton = document.createElement('button');
+    restartButton.textContent = 'ホームに戻る';
+    answersContainer.appendChild(restartButton);
+    restartButton.addEventListener('click', () => {
+      location.reload();
+  });
+};

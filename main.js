@@ -6,6 +6,9 @@
     fetchQuizData(1);
   });
 
+  const titleElement = document.getElementById("title");
+  const questionElement = document.getElementById("question");
+
   // fetchAPIを用いてデータを取り出す
   const API_URL = "https://opentdb.com/api.php?amount=10&type=multiple";
   const fetchQuizData = async (index) => {
@@ -77,10 +80,8 @@
   };
 
   // 次の問題
-  const titleElement = document.getElementById("title");
   const genreElement = document.getElementById("genre");
   const difficultyElement = document.getElementById("difficulty");
-  const questionElement = document.getElementById("question");
 
   const makeQuiz = (quizInstance, index) => {
     titleElement.innerHTML = `問題 ${index}`;

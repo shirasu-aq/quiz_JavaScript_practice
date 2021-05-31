@@ -3,6 +3,7 @@ const API_URL = 'https://opentdb.com/api.php?amount=10&type=multiple';
 class Quiz {
 　constructor(quizData) {
 　　this._quizzes = quizData.results;
+    this._correctAnswersNum = 0;
 　}
 
 　getQuizCategory(index) {
@@ -16,6 +17,29 @@ class Quiz {
 　getQuizQuestion(index) {
 　　return this._quizzes[index - 1].question;
 　}
+
+  // クイズの長さを取得
+  getNumOfquiz() {
+    return this._quizzes.length;
+  }
+
+  // クイズの正当数を取得
+  getcorrectAnswer(index) {
+    return this._quizzes[index - 1].correct_answer;
+  }
+
+  // クイズの正当数をカウント
+  countCorrectAnswersNum(index, answer) {
+    const correctAnswer = this._quizzes[index - 1].correct_answer;
+    if (answer === correctAnswer) {
+      return this._correctAnswersNum++;
+    }
+  }
+
+  // カウントした正答数を取得
+  getcorrectAnswerNum() {
+    return this._correctAnswerNum++;
+  }
 };
 
 const titleElement = document.getElementById('title');
@@ -30,6 +54,14 @@ startButton.addEventListener('click', () => {
 　　fetchQuizData(1);
 });
 
+const setNextQuiz = (quizInstance, index) => {
+  if (index <= quizInstance.getNumOfquiz()) {
+    makeQuiz(quizInstance, index);
+  }else {
+    finishQuiz(quizInstance);
+  }
+}
+
 const fetchQuizData = async (index) => {
 　titleElement.textContent = '取得中';
 　questionElement.textContent = '少々お待ち下さい';
@@ -41,18 +73,33 @@ const fetchQuizData = async (index) => {
 　setNextQuiz(quizInstance, index);
 };
 
+/**
+ * answerを定義
+ * ボタンのテキストに答えを表示
+ * 正答数をカウントするインスタンスメソッドを定義
+ */
 const makeQuiz = (quizInstance, index) => {
 　titleElement.innerHTML = `問題 ${index}`;
 　genreElement.innerHTML = `【ジャンル】 ${quizInstance.getQuizCategory(index)}`;
 　difficultyElement.innerHTML = `【難易度】 ${quizInstance.getQuizDifficulty(index)}`;
 　questionElement.innerHTML = `【クイズ】${quizInstance.getQuizQuestion(index)})`;
 
+const answer = quizInstance.getcorrectAnswer(index);
+
 　const buttonElement = document.createElement('button');
-　buttonElement.innerHTML = '次へ';
+　buttonElement.innerHTML = answer;
 　answersContainer.appendChild(buttonElement);
+
 　buttonElement.addEventListener('click', () => {
 　　index++;
 　　answersContainer.removeChild(answersContainer.firstChild);
 　　setNextQuiz(quizInstance, index);
 　});
 };
+
+const finishQuiz = (quizInstance) => {
+  titleElement.textContent = `あなたの正答数は${quizInstance.getcorrectAnswersNum()}です`
+  genreElement.textContent = '';
+  difficultyElement.textContent = '';
+  questionElement.textContent = '再チャレンジしたい場合は下をクリック';
+}

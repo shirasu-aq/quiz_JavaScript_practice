@@ -112,7 +112,7 @@
     });
   };
 
-  解答選択肢（ボタン）を表示
+  // 解答選択肢（ボタン）を表示
   const buildAnswers = (quizInstance, index) => {
     const answers = [
       quizInstance.getCorrectAnswer(index),

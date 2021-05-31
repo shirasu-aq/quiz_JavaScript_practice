@@ -28,6 +28,11 @@ class Quiz {
     return this._quizzes[index - 1].correct_answer;
   }
 
+  // 間違いの選択肢
+  getIncorrectAnswers(index) {
+    return this._quizzes[index - 1].incorrect_answers;
+  }
+
   // クイズの正当数をカウント
   countCorrectAnswersNum(index, answer) {
     const correctAnswer = this._quizzes[index - 1].correct_answer;
@@ -55,6 +60,10 @@ startButton.addEventListener('click', () => {
 });
 
 const setNextQuiz = (quizInstance, index) => {
+  // ボタン消す
+  while(answersContainer.firstChild) {
+    answersContainer.removeChild(answersContainer.firstChild);
+  }
   if (index <= quizInstance.getNumOfquiz()) {
     makeQuiz(quizInstance, index);
   }else {
@@ -74,9 +83,8 @@ const fetchQuizData = async (index) => {
 };
 
 /**
- * answerを定義
- * ボタンのテキストに答えを表示
- * 正答数をカウントするインスタンスメソッドを定義
+ * 配列でanswerを定義
+ * ボタン要素リストを表示
  */
 const makeQuiz = (quizInstance, index) => {
 　titleElement.innerHTML = `問題 ${index}`;
@@ -84,16 +92,25 @@ const makeQuiz = (quizInstance, index) => {
 　difficultyElement.innerHTML = `【難易度】 ${quizInstance.getQuizDifficulty(index)}`;
 　questionElement.innerHTML = `【クイズ】${quizInstance.getQuizQuestion(index)})`;
 
-const answer = quizInstance.getcorrectAnswer(index);
+const answers = [
+  quizInstance.getcorrectAnswer(index),
+  // ...を入れて回答ごとにボタンを生成する
+  ...quizInstance.getIncorrectAnswers(index)
+];
 
-　const buttonElement = document.createElement('button');
-　buttonElement.innerHTML = answer;
-　answersContainer.appendChild(buttonElement);
+  answers.forEach((answer) => {
+    const answerElement = document.createElement('li');
+    answersContainer.appendChild(answerElement);
 
-　buttonElement.addEventListener('click', () => {
-　　index++;
-　　answersContainer.removeChild(answersContainer.firstChild);
-　　setNextQuiz(quizInstance, index);
+    　const buttonElement = document.createElement('button');
+    　buttonElement.innerHTML = answer;
+    　answerElement.appendChild(buttonElement);
+    
+    　buttonElement.addEventListener('click', () => {
+      quizInstance.countCorrectAnswersNum(index, answer);
+      index++;
+    　　setNextQuiz(quizInstance, index);
+  });
 　});
 };
 

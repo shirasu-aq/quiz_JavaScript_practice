@@ -125,6 +125,7 @@
   const buildAnswers = (quizInstance, index) => {
     const answers = [
       quizInstance.getCorrectAnswer(index),
+      // 疑問
       ...quizInstance.getIncorrectAnswers(index),
     ];
     return shuffleArray(answers);

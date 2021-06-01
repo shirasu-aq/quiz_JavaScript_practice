@@ -27,9 +27,10 @@
 
     const showQuestions = () => {
       const eachQuiz = arrayquizData[index];
-      titleElement.innerHTML = `【問題】${eachQuiz.question}`;
+      titleElement.innerHTML = `【問題】${index}`;
       genreElement.innerHTML = `【カテゴリー】${eachQuiz.category}`;
       difficultyElement.innerHTML = `【難易度】 ${eachQuiz.difficulty}`;
+      questionElement.innerHTML = `【問題】${eachQuiz.question}`;
 
       // 解答選択肢を定義
       const answers = [eachQuiz.correct_answer, ...eachQuiz.incorrect_answers];

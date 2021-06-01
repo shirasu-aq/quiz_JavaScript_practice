@@ -21,7 +21,6 @@
     const response = await fetch(API_URL);
     const quizData = await response.json();
     const arrayquizData = quizData.results;
-    let correctAnswersNum = 0;
 
     const showQuestions = () => {
       // 最初の子要素以外を消す
@@ -49,11 +48,11 @@
 
         // 回答した際のクリックイベント
         buttonElement.addEventListener("click", () => {
-          countCorrectAnsewrsNum = () => {
-            if (answer === eachQuiz.correct_answer) {
-              return correctAnswersNum++;
-            }
-          };
+          let correctAnswersNum = 0;
+          if (answer === eachQuiz.correct_answer) {
+            correctAnswersNum++;
+          }
+
           index++;
           setNextQuiz();
         });
@@ -72,7 +71,7 @@
 
     // 10問全てのクイズ解答が終わった後の画面（正答数表示画面)
     const finishQuiz = () => {
-      titleElement.textContent = `あなたの正答数は${CorrectAnswersNum()}です`;
+      titleElement.textContent = `あなたの正答数は${correctAnswersNum}です`;
       genreElement.textContent = "";
       difficultyElement.textContent = "";
       questionElement.textContent = "再チャレンジしたい場合は下をクリック";
@@ -84,13 +83,16 @@
         location.reload();
       });
     };
+    console.log(finishQuiz);
 
     // 回答数によって処理を切り分ける
     const setNextQuiz = () => {
       while (answersContainer.firstChild) {
         answersContainer.removeChild(answersContainer.firstChild);
       }
-      if (index <= 10) {
+      if (index < arrayquizData.length) {
+        console.log(index);
+        console.log(arrayquizData.length);
         showQuestions();
       } else {
         finishQuiz();

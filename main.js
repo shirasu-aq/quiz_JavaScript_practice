@@ -12,6 +12,8 @@
   const difficultyElement = document.getElementById("difficulty");
   const answersContainer = document.getElementById("answers");
 
+  let correctAnswersNum = 0;
+
   // fetchAPIを用いてデータを取り出す
   const API_URL = "https://opentdb.com/api.php?amount=10&type=multiple";
   const fetchQuizData = async (index) => {
@@ -28,7 +30,7 @@
         answersContainer.removeChild(answersContainer.firstChild);
       }
 
-      const eachQuiz = arrayquizData[index];
+      const eachQuiz = arrayquizData[index - 1];
       titleElement.innerHTML = `【問題】${index}`;
       genreElement.innerHTML = `【カテゴリー】${eachQuiz.category}`;
       difficultyElement.innerHTML = `【難易度】 ${eachQuiz.difficulty}`;
@@ -48,7 +50,7 @@
 
         // 回答した際のクリックイベント
         buttonElement.addEventListener("click", () => {
-          let correctAnswersNum = 0;
+          // let correctAnswersNum = 0;
           if (answer === eachQuiz.correct_answer) {
             correctAnswersNum++;
           }
@@ -83,16 +85,13 @@
         location.reload();
       });
     };
-    console.log(finishQuiz);
 
     // 回答数によって処理を切り分ける
     const setNextQuiz = () => {
       while (answersContainer.firstChild) {
         answersContainer.removeChild(answersContainer.firstChild);
       }
-      if (index < arrayquizData.length) {
-        console.log(index);
-        console.log(arrayquizData.length);
+      if (index <= arrayquizData.length) {
         showQuestions();
       } else {
         finishQuiz();

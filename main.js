@@ -5,10 +5,17 @@ startButton.addEventListener("click", () => {
 
 const API_URL = "https://opentdb.com/api.php?amount=10&type=multiple";
 
+const titleElement = document.getElementById("title");
+const questionElement = document.getElementById("question");
+
 const fetchQuizdata = async () => {
+  titleElement.innerHTML = "データ取得中";
+  questionElement.innerHTML = "しばらくお待ちください";
   const response = await fetch(API_URL);
   const quizData = await response.json();
   const arrayQuizData = quizData.results;
+
+  console.log(arrayQuizData);
 };
 
 /**

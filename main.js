@@ -9,8 +9,8 @@ const titleElement = document.getElementById("title");
 const questionElement = document.getElementById("question");
 
 const fetchQuizdata = async () => {
-  titleElement.innerHTML = "データ取得中";
-  questionElement.innerHTML = "しばらくお待ちください";
+  titleElement.textContent = "データ取得中";
+  questionElement.textContent = "しばらくお待ちください";
   const response = await fetch(API_URL);
   const quizData = await response.json();
   const arrayQuizData = quizData.results;
@@ -20,10 +20,10 @@ const fetchQuizdata = async () => {
 
   const eachQuiz = arrayQuizData[0];
   let questionCount = 1;
-  titleElement.innerHTML = `問題${questionCount}`;
-  genreElement.innerHTML = `カテゴリ：${eachQuiz.category}`;
-  difficultyElement.innerHTML = `難易度：${eachQuiz.difficulty}`;
-  questionElement.innerHTML = `問題：${eachQuiz.question}`;
+  titleElement.textContent = `問題${questionCount}`;
+  genreElement.textContent = `カテゴリ：${eachQuiz.category}`;
+  difficultyElement.textContent = `難易度：${eachQuiz.difficulty}`;
+  questionElement.textContent = `問題：${eachQuiz.question}`;
 
   const answerContainer = document.getElementById("answers");
   const answerElement = document.createElement("li");

@@ -25,6 +25,8 @@ const fetchQuizdata = async () => {
   difficultyElement.textContent = `難易度：${eachQuiz.difficulty}`;
   questionElement.textContent = `問題：${eachQuiz.question}`;
 
+  // スタートボタンを消す
+  startButton.remove();
   const answerContainer = document.getElementById("answers");
   const answerElement = document.createElement("li");
   answerContainer.appendChild(answerElement);

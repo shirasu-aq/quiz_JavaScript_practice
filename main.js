@@ -24,12 +24,23 @@ const fetchQuizdata = async () => {
   genreElement.innerHTML = `カテゴリ：${eachQuiz.category}`;
   difficultyElement.innerHTML = `難易度：${eachQuiz.difficulty}`;
   questionElement.innerHTML = `問題：${eachQuiz.question}`;
+
+  const answerContainer = document.getElementById("answers");
+  const answerElement = document.createElement("li");
+  answerContainer.appendChild(answerElement);
+
+  const buttonElement = document.createElement("button");
+  const correctAnswer = eachQuiz.correct_answer;
+  buttonElement.textContent = correctAnswer;
+  answerElement.appendChild(buttonElement);
 };
 
 /**
- * ①情報を表示するためのHTML要素を作る
- * ②情報とHTML要素を結びつける
+ * ①解答を表示するためのHTML要素を作る
+ * ②correct_answerの情報を取り出す
+ * ③incorrect_answerの情報を取り出す
+ * ④HTML要素となげる
+ * ⑤④をHTML要素とつなげる
  
-自動的に最初の問題ページに移行、問題番号、カテゴリー名、難易度、問題文が表示される。
-　- 問題、【ジャンル】、【難易度】、【クイズ】という見出しも合わせて表示される。
+回答選択肢が表示される。（正解、不正解合わせて4つ）
  */

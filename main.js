@@ -15,16 +15,21 @@ const fetchQuizdata = async () => {
   const quizData = await response.json();
   const arrayQuizData = quizData.results;
 
-  console.log(arrayQuizData);
+  const genreElement = document.getElementById("genre");
+  const difficultyElement = document.getElementById("difficulty");
+
+  const eachQuiz = arrayQuizData[0];
+  let questionCount = 1;
+  titleElement.innerHTML = `問題${questionCount}`;
+  genreElement.innerHTML = `カテゴリ：${eachQuiz.category}`;
+  difficultyElement.innerHTML = `難易度：${eachQuiz.difficulty}`;
+  questionElement.innerHTML = `問題：${eachQuiz.question}`;
 };
 
 /**
- * ①スタートボタンにイベントをつける
- * ②APIのデータを取得する
- * ③①と②をつなぐ
+ * ①情報を表示するためのHTML要素を作る
+ * ②情報とHTML要素を結びつける
  
- * 
- * スタートボタンを押してゲームがスタートする。
-
-読み込んでいる間、title部分に「取得中」、question部分に「少々お待ちください」と表示される。
+自動的に最初の問題ページに移行、問題番号、カテゴリー名、難易度、問題文が表示される。
+　- 問題、【ジャンル】、【難易度】、【クイズ】という見出しも合わせて表示される。
  */
